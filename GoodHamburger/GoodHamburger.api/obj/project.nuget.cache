@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "oFGfGGAmkow=",
+  "success": true,
+  "projectFilePath": "C:\\dev\\testes\\GoodHamburger\\GoodHamburger\\GoodHamburger.Api\\GoodHamburger.Api.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\dhiso\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.6\\microsoft.aspnetcore.openapi.10.0.6.nupkg.sha512",
+    "C:\\Users\\dhiso\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512",
+    "C:\\Users\\dhiso\\.nuget\\packages\\system.text.json\\8.0.5\\system.text.json.8.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}
