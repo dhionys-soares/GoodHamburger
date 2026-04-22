@@ -27,4 +27,11 @@ public class Product
         Price = price;
         Type = type;
     }
+    
+    public void Update(string name, decimal price, ProductType type)
+    {
+        Name = name;
+        Price = price;
+        Type = type;
+    }
 }
