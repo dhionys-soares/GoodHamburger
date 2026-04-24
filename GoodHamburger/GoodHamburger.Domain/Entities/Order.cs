@@ -6,7 +6,7 @@ namespace GoodHamburger.Domain.Entities;
 
 public class Order
 {
-    private readonly IDiscount _discount;
+    private readonly IDiscount _discount = null!;
     private readonly List<OrderItem> _items = new();
     
     public Guid Id { get; private set; }
@@ -19,6 +19,10 @@ public class Order
             var discount = _discount.CalculateDiscount(this);
             return total - (total * discount);
         }
+    }
+    
+    protected Order()
+    {
     }
 
     public Order(IDiscount discount)
@@ -40,9 +44,34 @@ public class Order
         
         _items.Add(new OrderItem(product, quantity));
     }
+
+    public void RemoveItem(Guid productId)
+    {
+        var orderItem = _items.FirstOrDefault(x => x.Product.Id == productId);
+        if (orderItem is null)
+            throw new Exception($"Order item with id {productId} does not exist");
+        
+        _items.Remove(orderItem);
+    }
+
+    public void UpdateItem(Guid productId, int quantity)
+    {
+        var orderItem = _items.FirstOrDefault(x => x.Product.Id == productId);
+        if (orderItem is null)
+            throw new Exception($"Order item with id {productId} does not exist");
+        
+        orderItem.Update(orderItem.Product, quantity);
+    }
     
     public bool HasItemOfType(ProductType type)
     {
         return _items.Any(x => x.Product.Type == type);
     }
+
+
+    public void ClearItems()
+    {
+        _items.Clear();
+    }
+    
 }

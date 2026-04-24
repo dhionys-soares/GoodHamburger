@@ -1,6 +1,5 @@
-﻿using GoodHamburger.Domain.Entities;
-
-namespace GoodHamburger.Application.Interfaces;
+﻿namespace GoodHamburger.Application.Interfaces.Products;
+using GoodHamburger.Domain.Entities;
 
 public interface IDeleteProductService
 {

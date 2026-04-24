@@ -1,6 +1,6 @@
 ﻿using GoodHamburger.Domain.Enums;
 
-namespace GoodHamburger.Application;
+namespace GoodHamburger.Application.Requests;
 
 public class ProductRequest
 {

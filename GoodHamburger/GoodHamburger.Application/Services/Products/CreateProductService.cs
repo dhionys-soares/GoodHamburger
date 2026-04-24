@@ -1,7 +1,9 @@
-﻿using GoodHamburger.Application.Interfaces;
+﻿using GoodHamburger.Application.Interfaces.Products;
+using GoodHamburger.Application.Interfaces.Repositories;
+using GoodHamburger.Application.Requests;
 using GoodHamburger.Domain.Entities;
 
-namespace GoodHamburger.Application.Services;
+namespace GoodHamburger.Application.Services.Products;
 
 public class CreateProductService : ICreateProductService
 {
