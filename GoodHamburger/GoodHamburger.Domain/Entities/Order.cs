@@ -1,4 +1,5 @@
-﻿using GoodHamburger.Domain.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using GoodHamburger.Domain.Enums;
 using GoodHamburger.Domain.Exceptions;
 using GoodHamburger.Domain.Interfaces;
 
@@ -6,29 +7,20 @@ namespace GoodHamburger.Domain.Entities;
 
 public class Order
 {
-    private readonly IDiscount _discount = null!;
     private readonly List<OrderItem> _items = new();
     
     public Guid Id { get; private set; }
 
     public IReadOnlyCollection<OrderItem> Items => _items;
-    public decimal Total {
-        get
-        {
-            var total = _items.Sum(x => x.Total);
-            var discount = _discount.CalculateDiscount(this);
-            return total - (total * discount);
-        }
-    }
     
-    protected Order()
-    {
-    }
+    [NotMapped]
+    public decimal SubTotal => _items.Sum(x => x.Total);
 
-    public Order(IDiscount discount)
+    public decimal Total { get; private set; }
+
+    public Order()
     {
         Id = Guid.NewGuid();
-        _discount = discount ?? throw new DiscountCannotBeNullException();
     }
 
     public void AddItem(Product product, int quantity)
@@ -68,10 +60,13 @@ public class Order
         return _items.Any(x => x.Product.Type == type);
     }
 
-
     public void ClearItems()
     {
         _items.Clear();
     }
     
+    public void ApplyDiscount(decimal discount)
+    {
+        Total = SubTotal - (SubTotal * discount);
+    }
 }

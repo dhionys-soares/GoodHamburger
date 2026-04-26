@@ -1,0 +1,13 @@
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\bin\Debug\net10.0\GoodHamburger.Domain.deps.json
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\bin\Debug\net10.0\GoodHamburger.Domain.dll
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\bin\Debug\net10.0\GoodHamburger.Domain.pdb
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\GoodHamburger.Domain.csproj.AssemblyReference.cache
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\GoodHamburger.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\GoodHamburger.Domain.AssemblyInfoInputs.cache
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\GoodHamburger.Domain.AssemblyInfo.cs
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\GoodHamburger.Domain.csproj.CoreCompileInputs.cache
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\GoodHamburger.Domain.sourcelink.json
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\GoodHamburger.Domain.dll
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\refint\GoodHamburger.Domain.dll
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\GoodHamburger.Domain.pdb
+C:\dev\testes\GoodHamburger\GoodHamburger\GoodHamburger.Domain\obj\Debug\net10.0\ref\GoodHamburger.Domain.dll

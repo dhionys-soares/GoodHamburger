@@ -14,8 +14,10 @@ public class OrderMapping : IEntityTypeConfiguration<Order>
 
         builder.Property(o => o.Id)
             .ValueGeneratedNever();
-
-        builder.Ignore(o => o.Total);
+        
+        builder.Property(o => o.Total)
+            .HasColumnType("decimal(18,2)")
+            .IsRequired();
 
         builder.Navigation(o => o.Items)
             .UsePropertyAccessMode(PropertyAccessMode.Field);
@@ -33,8 +35,6 @@ public class OrderMapping : IEntityTypeConfiguration<Order>
 
             item.Property(i => i.Quantity)
                 .IsRequired();
-
-            item.Ignore(i => i.Total);
 
             item.HasOne(i => i.Product)
                 .WithMany()

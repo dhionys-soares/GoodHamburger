@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "+Z/uyWlViAY=",
+  "dgSpecHash": "Zn9r8RmT5kY=",
   "success": true,
   "projectFilePath": "C:\\dev\\testes\\GoodHamburger\\GoodHamburger\\GoodHamburger.Domain\\GoodHamburger.Domain.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\dhiso\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.7\\microsoft.extensions.dependencyinjection.abstractions.10.0.7.nupkg.sha512"
+  ],
   "logs": []
 }

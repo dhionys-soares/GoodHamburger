@@ -4,7 +4,7 @@ public class Response<T>
 {
     public bool IsSucess { get;  private set; }
     public T? Data { get; private set; }
-    public string Message { get; private set; }
+    public string Message { get; private set; } = string.Empty;
     public string? Error { get; private set; }
 
     protected Response()

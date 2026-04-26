@@ -21,21 +21,19 @@ public class CreateOrderService : ICreateOrderService
 
     public async Task<Response<Order>> CreateOrderAsync(OrderRequest request)
     {
-        if (request == null)
-            return Response<Order>.Fail("Order cannot be null", "400");
-
-        var order = new Order(_discount);
-        await _orderRepository.AddOrderAsync(order);
+        var order = new Order();
 
         foreach (var item in request.Items)
         {
             var product = await _productRepository.GetProductByIdAsync(item.ProductId);
-            
             if (product == null)
                 return Response<Order>.Fail("Product not found", "400");
             
             order.AddItem(product, item.Quantity);
         }
+        
+        var discount = _discount.CalculateDiscount(order);
+        order.ApplyDiscount(discount);
         
         await _orderRepository.AddOrderAsync(order);
         return Response<Order>.Ok(order, "Order created successfully");

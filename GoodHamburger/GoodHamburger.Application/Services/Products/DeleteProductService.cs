@@ -15,8 +15,8 @@ public class DeleteProductService : IDeleteProductService
 
     public async Task<Response<Product>> DeleteProductAsync(Guid id)
     {
-        if (id == null)
-            return Response<Product>.Fail("Invalid product id", "400");
+        // if (id == null)
+        //     return Response<Product>.Fail("Invalid product id", "400");
 
         var product = await _productRepository.GetProductByIdAsync(id);
 
