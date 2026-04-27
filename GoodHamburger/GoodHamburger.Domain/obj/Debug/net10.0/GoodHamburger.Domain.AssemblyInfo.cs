@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GoodHamburger.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f7aa29856bb0149bc90f9f5af04b73acb5351465")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e714fcb0d3d08e34ed9688fbc7c8ac35468b4aad")]
 [assembly: System.Reflection.AssemblyProductAttribute("GoodHamburger.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GoodHamburger.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

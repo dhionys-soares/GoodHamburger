@@ -1,25 +1,18 @@
 ﻿using GoodHamburger.Domain.Enums;
+using GoodHamburger.Domain.Exceptions;
 using GoodHamburger.Domain.Interfaces;
 
 namespace GoodHamburger.Domain.Entities;
 
-public class Discount : IDiscount
+public class Discount
 {
-    public decimal CalculateDiscount(Order order)
+    public decimal Value { get; private set;}
+    
+    public Discount(decimal value)
     {
-        bool hasSandwich = order.HasItemOfType(ProductType.Sandwich);
-        bool hasFries = order.HasItemOfType(ProductType.Fries);
-        bool hasDrink = order.HasItemOfType(ProductType.Drink);
-        
-        if (hasSandwich && hasFries && hasDrink)
-            return 0.2m;
+        if (value is not (0m or 0.10m or 0.15m or 0.20m))
+            throw new DiscountOutOfRangeAllowedException();
 
-        if (hasSandwich && hasDrink)
-            return 0.15m;
-
-        if (hasSandwich && hasFries)
-            return 0.10m;
-
-        return 0m;
+        Value = value;
     }
 }

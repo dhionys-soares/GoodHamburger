@@ -1,4 +1,5 @@
-﻿using GoodHamburger.Application.Interfaces.Orders;
+﻿using GoodHamburger.Application.Exceptions;
+using GoodHamburger.Application.Interfaces.Orders;
 using GoodHamburger.Application.Interfaces.Repositories;
 using GoodHamburger.Application.Requests;
 using GoodHamburger.Domain.Entities;
@@ -10,18 +11,24 @@ public class UpdateOrderService : IUpdateOrderService
 {
     private readonly IOrderRepository _orderRepository;
     private readonly IProductRepository _productRepository;
-    private readonly IDiscount _discount;
+    private readonly IDiscountCalculator _discountCalculator;
 
     public UpdateOrderService(IOrderRepository orderRepository, IProductRepository productRepository,
-        IDiscount discount)
+        IDiscountCalculator discountCalculator)
     {
         _orderRepository = orderRepository;
         _productRepository = productRepository;
-        _discount = discount;
+        _discountCalculator = discountCalculator;
     }
 
     public async Task<Response<Order>> UpdateOrderAsync(OrderRequest request)
     {
+        if (request is null)
+            throw new RequestCannotBeNullException();
+        
+        if (request.Id == Guid.Empty)
+            return Response<Order>.Fail("Invalid order id", "400");
+        
         if (!request.Items.Any())
             return Response<Order>.Fail("Items cannot be empty", "400");
 
@@ -55,10 +62,10 @@ public class UpdateOrderService : IUpdateOrderService
         foreach (var itemRequest in request.Items)
         {
             var product = products.First(x => x.Id == itemRequest.ProductId);
-            order.AddItem(product, itemRequest.Quantity);
+            order.AddItem(product);
         }
 
-        var discount = _discount.CalculateDiscount(order);
+        var discount = new Discount(_discountCalculator.CalculateDiscount(order));
         order.ApplyDiscount(discount);
 
         await _orderRepository.UpdateOrderAsync(order);

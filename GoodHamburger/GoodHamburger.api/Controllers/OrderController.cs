@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GoodHamburger.Controllers;
 
     [ApiController]
-    [Route("api/orders")]
+    [Route("api/orders", Name = "Orders")]
     public class OrdersController : ControllerBase
     {
         private readonly ICreateOrderService _createOrderService;
@@ -28,7 +28,7 @@ namespace GoodHamburger.Controllers;
             _getAllOrderService = getAllOrderService;
         }
 
-        [HttpPost]
+        [HttpPost(Name =  "CreateOrder")]
         public async Task<IActionResult> Create([FromBody] OrderRequest request)
         {
             var response = await _createOrderService.CreateOrderAsync(request);
@@ -39,7 +39,7 @@ namespace GoodHamburger.Controllers;
             return Created($"/api/orders/{response.Data?.Id}", response);
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetAllOrders")]
         public async Task<IActionResult> GetAll()
         {
             var response = await _getAllOrderService.GetAllOrdersAsync();
@@ -50,7 +50,7 @@ namespace GoodHamburger.Controllers;
             return Ok(response);
         }
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("{id:guid}", Name =  "GetOrderById")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var response = await _getOrderByIdService.GetOrderByIdAsync(id);
@@ -61,7 +61,7 @@ namespace GoodHamburger.Controllers;
             return Ok(response);
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("{id:guid}", Name =  "UpdateOrder")]
         public async Task<IActionResult> Update(Guid id, [FromBody] OrderRequest request)
         {
             request.Id = id;
@@ -74,7 +74,7 @@ namespace GoodHamburger.Controllers;
             return Ok(response);
         }
 
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("{id:guid}", Name =   "DeleteOrder")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var response = await _deleteOrderService.DeleteOrderAsync(id);

@@ -13,27 +13,21 @@ public class OrderItem
         
     }
 
-    public OrderItem(Product product, int quantity)
+    public OrderItem(Product product)
     {
         if (product is null)
             throw new ProductCannotBeNullException();
 
-        if (quantity <= 0)
-            throw new InvalidQuantityException();
-
         Product = product;
-        Quantity = quantity;
+        Quantity = 1;
     }
 
-    public void Update(Product product, int quantity)
+    public void Update(Product product)
     {
         if (product is null)
             throw new ProductCannotBeNullException();
 
-        if (quantity <= 0)
-            throw new InvalidQuantityException();
-
         Product = product;
-        Quantity = quantity;
+        Quantity = 1;
     }
 }

@@ -1,5 +1,7 @@
-﻿using GoodHamburger.Application.Interfaces.Orders;
+﻿using GoodHamburger.Application.Interfaces;
+using GoodHamburger.Application.Interfaces.Orders;
 using GoodHamburger.Application.Interfaces.Products;
+using GoodHamburger.Application.Services;
 using GoodHamburger.Application.Services.Orders;
 using GoodHamburger.Application.Services.Products;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +23,8 @@ public static class DependencyInjection
         services.AddScoped<IDeleteOrderService, DeleteOrderService>();
         services.AddScoped<IGetOrderByIdService, GetOrderByIdService>();
         services.AddScoped<IGetAllOrderService, GetAllOrderService>();
+
+        services.AddScoped<IGetMenuService, GetMenuService>();
 
         return services;
     }

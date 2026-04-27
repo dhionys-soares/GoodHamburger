@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GoodHamburger.Controllers;
 
 [ApiController]
-[Route("api/products")]
+[Route("api/products", Name =  "Products")]
 public class ProductsController : ControllerBase
 {
     private readonly ICreateProductService _createProductService;
@@ -28,7 +28,7 @@ public class ProductsController : ControllerBase
         _getAllProductService = getAllProductService;
     }
 
-    [HttpPost]
+    [HttpPost(Name =  "CreateProduct")]
     public async Task<IActionResult> Create([FromBody] ProductRequest request)
     {
         var response = await _createProductService.CreateProductAsync(request);
@@ -39,7 +39,7 @@ public class ProductsController : ControllerBase
         return Created($"/api/products/{response.Data?.Id}",response);
     }
 
-    [HttpGet]
+    [HttpGet(Name = "GetAllProducts")]
     public async Task<IActionResult> GetAll()
     {
         var response = await _getAllProductService.GetAllProductsAsync();
@@ -50,7 +50,7 @@ public class ProductsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpGet("{id:guid}")]
+    [HttpGet("{id:guid}", Name = "GetProductById")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var request = new ProductRequest
@@ -66,7 +66,7 @@ public class ProductsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPut("{id:guid}")]
+    [HttpPut("{id:guid}", Name =  "UpdateProduct")]
     public async Task<IActionResult> Update(Guid id, [FromBody] ProductRequest request)
     {
         request.Id = id;
@@ -79,7 +79,7 @@ public class ProductsController : ControllerBase
         return Ok(response);
     }
 
-    [HttpDelete("{id:guid}")]
+    [HttpDelete("{id:guid}", Name = "DeleteProduct")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var response = await _deleteProductService.DeleteProductAsync(id);

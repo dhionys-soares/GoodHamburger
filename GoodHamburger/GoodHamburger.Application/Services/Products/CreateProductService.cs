@@ -1,4 +1,5 @@
-﻿using GoodHamburger.Application.Interfaces.Products;
+﻿using GoodHamburger.Application.Exceptions;
+using GoodHamburger.Application.Interfaces.Products;
 using GoodHamburger.Application.Interfaces.Repositories;
 using GoodHamburger.Application.Requests;
 using GoodHamburger.Domain.Entities;
@@ -17,7 +18,7 @@ public class CreateProductService : ICreateProductService
     public async Task<Response<Product>> CreateProductAsync(ProductRequest productRequest)
     {
         if (productRequest == null)
-            return Response<Product>.Fail("Product cannot be null", "400");
+            throw new RequestCannotBeNullException();
         
         if (string.IsNullOrWhiteSpace(productRequest.Name))
             return Response<Product>.Fail("Name is required", "400");

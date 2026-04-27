@@ -23,36 +23,33 @@ public class Order
         Id = Guid.NewGuid();
     }
 
-    public void AddItem(Product product, int quantity)
+    public void AddItem(Product product)
     {
         if (product is null)
             throw new ProductCannotBeNullException();
 
-        if (quantity <= 0)
-            throw new InvalidQuantityException();
-
         if (_items.Any(x => x.Product.Type == product.Type))
             throw new DuplicateProductException();
         
-        _items.Add(new OrderItem(product, quantity));
+        _items.Add(new OrderItem(product));
     }
 
     public void RemoveItem(Guid productId)
     {
         var orderItem = _items.FirstOrDefault(x => x.Product.Id == productId);
         if (orderItem is null)
-            throw new Exception($"Order item with id {productId} does not exist");
+            throw new ProductNotFoundException();
         
         _items.Remove(orderItem);
     }
 
-    public void UpdateItem(Guid productId, int quantity)
+    public void UpdateItem(Guid productId)
     {
         var orderItem = _items.FirstOrDefault(x => x.Product.Id == productId);
         if (orderItem is null)
-            throw new Exception($"Order item with id {productId} does not exist");
+            throw new ProductNotFoundException();
         
-        orderItem.Update(orderItem.Product, quantity);
+        orderItem.Update(orderItem.Product);
     }
     
     public bool HasItemOfType(ProductType type)
@@ -65,8 +62,11 @@ public class Order
         _items.Clear();
     }
     
-    public void ApplyDiscount(decimal discount)
+    public void ApplyDiscount(Discount discount)
     {
-        Total = SubTotal - (SubTotal * discount);
+        if (discount is null)
+            throw new DiscountCannotBeNullException();
+        
+        Total = Math.Round(SubTotal - (SubTotal * discount.Value), 2,  MidpointRounding.AwayFromZero);
     }
 }

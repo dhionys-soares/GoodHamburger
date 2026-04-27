@@ -1,0 +1,160 @@
+﻿@page "/orders/create"
+@using GoodHamburger.Web.Models
+@using GoodHamburger.Web.Services
+@inject ProductService ProductService
+@inject OrderService OrderService
+@inject NavigationManager Navigation
+
+<h3>Novo Pedido</h3>
+
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
+
+@if (products is null)
+{
+    <p>Carregando produtos...</p>
+}
+else
+{
+    <EditForm Model="order" OnValidSubmit="SaveOrder">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label>Produto</label>
+            <InputSelect class="form-control" @bind-Value="selectedProductId">
+                <option value="@Guid.Empty">Selecione um produto</option>
+
+                @foreach (var product in products)
+                {
+                    <option value="@product.Id">
+                        @product.Name - @product.Price.ToString("C")
+                    </option>
+                }
+            </InputSelect>
+        </div>
+
+        <button class="btn btn-primary" type="button" @onclick="AddProduct">
+            Adicionar Produto
+        </button>
+
+        <hr />
+
+        <h5>Produtos selecionados</h5>
+
+        @if (!order.Items.Any())
+        {
+            <p>Nenhum produto selecionado.</p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in order.Items)
+                    {
+                        var product = products.FirstOrDefault(p => p.Id == item.ProductId);
+
+                        <tr>
+                            <td>@product?.Name</td>
+                            <td>@item.Quantity</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger"
+                                        type="button"
+                                        @onclick="() => RemoveProduct(item.ProductId)">
+                                    Remover
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
+        <button class="btn btn-success" type="submit">Finalizar Pedido</button>
+        <button class="btn btn-secondary" type="button" @onclick="Back">Voltar</button>
+    </EditForm>
+}
+
+@code {
+    private List<ProductModel>? products;
+    private CreateOrderModel order = new();
+    private Guid selectedProductId = Guid.Empty;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetAllAsync();
+    }
+
+    private void AddProduct()
+    {
+        errorMessage = null;
+
+        if (selectedProductId == Guid.Empty)
+        {
+            errorMessage = "Selecione um produto.";
+            return;
+        }
+
+        var itemExists = order.Items.Any(i => i.ProductId == selectedProductId);
+
+        if (itemExists)
+        {
+            errorMessage = "Este produto já foi adicionado ao pedido.";
+            return;
+        }
+
+        order.Items.Add(new OrderItemModel
+        {
+            ProductId = selectedProductId,
+            Quantity = 1
+        });
+
+        selectedProductId = Guid.Empty;
+    }
+
+    private void RemoveProduct(Guid productId)
+    {
+        var item = order.Items.FirstOrDefault(i => i.ProductId == productId);
+
+        if (item is not null)
+            order.Items.Remove(item);
+    }
+
+    private async Task SaveOrder()
+    {
+        errorMessage = null;
+
+        if (!order.Items.Any())
+        {
+            errorMessage = "Adicione pelo menos um produto ao pedido.";
+            return;
+        }
+
+        var response = await OrderService.CreateAsync(order);
+
+        if (response is not null && response.Success)
+        {
+            Navigation.NavigateTo("/orders");
+            return;
+        }
+
+        errorMessage = response?.Message ?? "Não foi possível criar o pedido.";
+    }
+
+    private void Back()
+    {
+        Navigation.NavigateTo("/orders");
+    }
+}

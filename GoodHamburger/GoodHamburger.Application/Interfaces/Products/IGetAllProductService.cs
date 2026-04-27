@@ -3,5 +3,5 @@ using GoodHamburger.Domain.Entities;
 
 public interface IGetAllProductService
 {
-    Task<Response<List<Product>?>> GetAllProductsAsync();
+    Task<Response<List<Product>>> GetAllProductsAsync();
 }
