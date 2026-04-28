@@ -1,5 +1,4 @@
 ﻿using GoodHamburger.Application.Interfaces;
-using GoodHamburger.Application.Interfaces.Orders;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoodHamburger.Controllers;

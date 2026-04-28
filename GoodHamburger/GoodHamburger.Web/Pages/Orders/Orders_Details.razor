@@ -1,0 +1,88 @@
+﻿@page "/orders/details/{id:guid}"
+@using GoodHamburger.Web.Models
+@using GoodHamburger.Web.Services
+@inject OrderService OrderService
+@inject ProductService ProductService
+@inject NavigationManager Navigation
+
+<div class="gh-page">
+    <section class="gh-hero mb-4">
+        <span class="gh-eyebrow">Pedido</span>
+        <h3 class="display-6 mt-3 mb-2">Detalhes do Pedido</h3>
+        <p class="mb-0">Consulte os produtos e o total calculado.</p>
+    </section>
+
+    @if (order is null)
+    {
+        <div class="gh-empty">Carregando pedido...</div>
+    }
+    else
+    {
+        <div class="gh-card">
+            <div class="gh-card-body">
+                <div class="row g-3 mb-4">
+                    <div class="col-md-8">
+                        <span class="gh-badge">Id</span>
+                        <p class="mt-2 mb-0 text-break">@order.Id</p>
+                    </div>
+                    <div class="col-md-4">
+                        <span class="gh-badge">Total</span>
+                        <h3 class="mt-2 mb-0 gh-price">@order.Total.ToString("C")</h3>
+                    </div>
+                </div>
+
+                <h5>Itens</h5>
+
+                @if (order.Items is null || !order.Items.Any())
+                {
+                    <p class="gh-empty">Nenhum item encontrado.</p>
+                }
+                else
+                {
+                    <div class="table-responsive rounded-4 overflow-hidden border">
+                        <table class="table table-hover gh-table">
+                            <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Quantidade</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in order.Items)
+                            {
+                                var product = products.FirstOrDefault(x => x.Id == item.Product.Id);
+
+                                <tr>
+                                    <td>@product.Name</td>
+                                    <td>@product.Price</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+                <button class="btn btn-secondary mt-4" @onclick="Back">Voltar</button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private OrderModel? order;
+    private List<ProductModel> products = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        order = await OrderService.GetByIdAsync(Id);
+        products = await ProductService.GetAllAsync();
+    }
+
+    private void Back()
+    {
+        Navigation.NavigateTo("/orders");
+    }
+}

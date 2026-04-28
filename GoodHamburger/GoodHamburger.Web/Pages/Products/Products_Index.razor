@@ -1,0 +1,104 @@
+﻿@page "/products"
+
+@using GoodHamburger.Web.Models
+@using GoodHamburger.Web.Services
+@inject ProductService ProductService
+@inject NavigationManager NavigationManager
+
+<div class="gh-page">
+    <section class="gh-hero mb-4">
+        <span class="gh-eyebrow">Produtos</span>
+        <h3 class="display-6 mt-3 mb-2">Produtos</h3>
+        <p class="mb-4">Gerencie os itens disponíveis para o cardápio.</p>
+        <button class="btn btn-success" @onclick="GoToCreate">
+            Novo Produto
+        </button>
+    </section>
+
+    @if (products is null)
+    {
+        <div class="gh-empty">Carregando...</div>
+    }
+    else if (!products.Any())
+    {
+        <div class="gh-empty">Nenhum produto encontrado.</div>
+    }
+    else
+    {
+        <div class="gh-card">
+            <div class="table-responsive">
+                <table class="table table-hover gh-table">
+                    <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Valor</th>
+                        <th>Tipo</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var product in products)
+                    {
+                        <tr>
+                            <td><strong>@product.Name</strong></td>
+                            <td><span class="gh-price">@product.Price.ToString("C")</span></td>
+                            <td><span class="gh-badge">@GetProductTypeName(product.Type)</span></td>
+                            <td>
+                                <div class="gh-actions">
+                                    <button class="btn btn-sm btn-warning"
+                                            @onclick="() => Edit(product.Id)">
+                                        Editar
+                                    </button>
+
+                                    <button class="btn btn-sm btn-danger"
+                                            @onclick="() => Delete(product.Id)">
+                                        Excluir
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<ProductModel>? products;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetAllAsync();
+    }
+
+    private void GoToCreate()
+    {
+        NavigationManager.NavigateTo("/products/create");
+    }
+
+    private void Edit(Guid id)
+    {
+        NavigationManager.NavigateTo($"/products/edit/{id}");
+    }
+
+    private async Task Delete(Guid id)
+    {
+        var success = await ProductService.DeleteAsync(id);
+
+        if (success)
+            products = await ProductService.GetAllAsync();
+    }
+
+    private string GetProductTypeName(int type)
+    {
+        return type switch
+        {
+            0 => "Sanduíche",
+            1 => "Batata",
+            2 => "Refrigerante",
+            _ => "Desconhecido"
+        };
+    }
+}

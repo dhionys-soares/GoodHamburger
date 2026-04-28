@@ -5,7 +5,7 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
   "mainAssemblyName": "GoodHamburger.Web",
   "applicationEnvironment": "Development",
   "resources": {
-    "hash": "sha256-ZjgQZkCPnAeN4Rm/8IWd1zQxDBisbqH0mb6WIrJVnNs=",
+    "hash": "sha256-AADMGljbM+5l8+OX5OLXBD8OGrwxjOpUoGuhES0NMWo=",
     "jsModuleNative": [
       {
         "name": "dotnet.native.mx9wzm9o5h.js"
@@ -1242,16 +1242,16 @@ var e=!1;const t=async()=>WebAssembly.validate(new Uint8Array([0,97,115,109,1,0,
       },
       {
         "virtualPath": "GoodHamburger.Web.wasm",
-        "name": "GoodHamburger.Web.y3wnyiroar.wasm",
-        "integrity": "sha256-Tpy6Jj1gILkVpeSQEdZCCYKukyFnpY8gfbhegju9rGI=",
+        "name": "GoodHamburger.Web.1lvtgztrb9.wasm",
+        "integrity": "sha256-265XIEzdyH2on97gEJNxPSxPjAaYA2w2GqZtn4lxN7s=",
         "cache": "force-cache"
       }
     ],
     "pdb": [
       {
         "virtualPath": "GoodHamburger.Web.pdb",
-        "name": "GoodHamburger.Web.xl6l5qke7q.pdb",
-        "integrity": "sha256-taHX9o6EXjMvKI3yZVJkT7of2ime1QIxTQCItpKx+co=",
+        "name": "GoodHamburger.Web.yj0z6oxugb.pdb",
+        "integrity": "sha256-clxFTUx40SLTKiKi9Pj+NYLiqo6LY9+hW7+A6rLit+4=",
         "cache": "force-cache"
       }
     ],

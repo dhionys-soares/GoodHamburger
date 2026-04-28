@@ -1,0 +1,183 @@
+﻿@page "/orders/create"
+@using GoodHamburger.Web.Models
+@using GoodHamburger.Web.Services
+@inject ProductService ProductService
+@inject OrderService OrderService
+@inject NavigationManager Navigation
+
+<div class="gh-page">
+    <section class="gh-hero mb-4">
+        <span class="gh-eyebrow">Pedidos</span>
+        <h3 class="display-6 mt-3 mb-2">Novo Pedido</h3>
+        <p class="mb-0">Selecione os produtos do pedido e finalize a compra.</p>
+    </section>
+
+    @if (!string.IsNullOrWhiteSpace(errorMessage))
+    {
+        <div class="alert alert-danger shadow-sm">
+            @errorMessage
+        </div>
+    }
+
+    @if (products is null)
+    {
+        <div class="gh-empty">Carregando produtos...</div>
+    }
+    else
+    {<div class="d-flex justify-content-center">
+        <div class="gh-card gh-form w-100" style="max-width: 600px;">
+            <div class="gh-card-body">
+                <EditForm Model="order" OnValidSubmit="SaveOrder">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="mb-3">
+                        <label class="form-label">Produto</label>
+                        <InputSelect class="form-select" @bind-Value="selectedProductId">
+                            <option value="@Guid.Empty">Selecione um produto</option>
+
+                            @foreach (var product in products)
+                            {
+                                <option value="@product.Id">
+                                    @product.Name - @product.Price.ToString("C")
+                                </option>
+                            }
+                        </InputSelect>
+                    </div>
+
+                    <button class="btn btn-primary" type="button" @onclick="AddProduct">
+                        Adicionar Produto
+                    </button>
+
+                    <hr class="my-4" />
+
+                    <h5>Produtos selecionados</h5>
+
+                    @if (!order.Items.Any())
+                    {
+                        <p class="gh-empty">Nenhum produto selecionado.</p>
+                    }
+                    else
+                    {
+                        <div class="table-responsive rounded-4 overflow-hidden border">
+                            <table class="table table-hover gh-table">
+                                <thead>
+                                <tr>
+                                    <th>Produto</th>
+                                    <th>Preço</th>
+                                    <th>Ações</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in order.Items)
+                                {
+                                    var product = products.FirstOrDefault(p => p.Id == item.ProductId);
+
+                                    <tr>
+                                        <td>@product?.Name</td>
+                                        <td>@product?.Price.ToString("C")</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger"
+                                                    type="button"
+                                                    @onclick="() => RemoveProduct(item.ProductId)">
+                                                Remover
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+
+                    <div class="gh-actions mt-4">
+                        <button class="btn btn-success" type="submit">Finalizar Pedido</button>
+                        <button class="btn btn-secondary" type="button" @onclick="Back">Voltar</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+@code {
+    private List<ProductModel>? products;
+    private CreateOrderModel order = new();
+    private Guid selectedProductId = Guid.Empty;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetAllAsync();
+    }
+
+    private void AddProduct()
+    {
+        errorMessage = null;
+
+        if (selectedProductId == Guid.Empty)
+        {
+            errorMessage = "Selecione um produto.";
+            return;
+        }
+
+        var product = products?.FirstOrDefault(p => p.Id == selectedProductId);
+
+        if (product is null)
+        {
+            errorMessage = "Produto não encontrado.";
+            return;
+        }
+
+        var itemExists = order.Items.Any(i => i.ProductId == selectedProductId);
+
+        if (itemExists)
+        {
+            errorMessage = "Este produto já foi adicionado ao pedido.";
+            return;
+        }
+
+        order.Items.Add(new CreateOrderItemModel
+        {
+            ProductId = selectedProductId,
+            Quantity = 1
+        });
+
+        selectedProductId = Guid.Empty;
+    }
+
+    private void RemoveProduct(Guid productId)
+    {
+        var item = order.Items.FirstOrDefault(i => i.ProductId == productId);
+
+        if (item is not null)
+            order.Items.Remove(item);
+    }
+
+    private async Task SaveOrder()
+    {
+        errorMessage = null;
+
+        if (!order.Items.Any())
+        {
+            errorMessage = "Adicione pelo menos um produto ao pedido.";
+            return;
+        }
+
+        var response = await OrderService.CreateAsync(order);
+
+        if (response is not null && response.IsSucess)
+        {
+            Navigation.NavigateTo("/orders");
+            return;
+        }
+
+        errorMessage = response?.Message ?? "Não foi possível criar o pedido.";
+    }
+
+    private void Back()
+    {
+        Navigation.NavigateTo("/orders");
+    }
+}

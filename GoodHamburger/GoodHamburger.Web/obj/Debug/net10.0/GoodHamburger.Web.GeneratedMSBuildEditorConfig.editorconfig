@@ -44,32 +44,36 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Menu.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWVudS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/NotFound.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTm90Rm91bmQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Orders/Create.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXENyZWF0ZS5yYXpvcg==
+[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Orders/Orders_Create.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXE9yZGVyc19DcmVhdGUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Orders/Details.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXERldGFpbHMucmF6b3I=
+[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Orders/Orders_Details.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXE9yZGVyc19EZXRhaWxzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Orders/Index.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXEluZGV4LnJhem9y
+[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Orders/Orders_Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3JkZXJzXE9yZGVyc19JbmRleC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Products/Create.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcQ3JlYXRlLnJhem9y
+[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Products/Products_Create.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcUHJvZHVjdHNfQ3JlYXRlLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Products/Edit.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcRWRpdC5yYXpvcg==
+[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Products/Products_Edit.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcUHJvZHVjdHNfRWRpdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Products/Index.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcSW5kZXgucmF6b3I=
+[C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/Pages/Products/Products_Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJvZHVjdHNcUHJvZHVjdHNfSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/dev/testes/GoodHamburger/GoodHamburger/GoodHamburger.Web/_Imports.razor]

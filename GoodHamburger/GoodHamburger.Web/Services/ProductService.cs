@@ -29,10 +29,10 @@ public class ProductService
         return response?.Data;
     }
 
-    public async Task<bool> CreateAsync(ProductModel request)
+    public async Task<ResponseModel<ProductModel>?> CreateAsync(CreateProductModel request)
     {
         var result = await _httpClient.PostAsJsonAsync("api/products", request);
-        return result.IsSuccessStatusCode;
+        return await result.Content.ReadFromJsonAsync<ResponseModel<ProductModel>>();
     }
 
     public async Task<bool> UpdateAsync(Guid id, ProductModel request)

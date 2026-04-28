@@ -1,0 +1,85 @@
+﻿@page "/menu"
+@using GoodHamburger.Web.Models
+@using GoodHamburger.Web.Services
+@inject MenuService MenuService
+
+<div class="gh-page">
+    <section class="gh-hero mb-4">
+        <span class="gh-eyebrow">Cardápio</span>
+        <h3 class="display-6 mt-3 mb-2">Escolha seu combo favorito</h3>
+        <p class="mb-4">Confira os sanduíches, acompanhamentos e bebidas disponíveis.</p>
+        <NavLink class="btn btn-success" href="/orders/create">
+            Fazer pedido
+        </NavLink>
+    </section>
+
+    @if (menu is null)
+    {
+        <div class="gh-empty">Carregando cardápio...</div>
+    }
+    else
+    {
+        <div class="gh-menu-grid">
+            <div class="gh-card">
+                <div class="gh-card-body">
+                    <div class="gh-section-title">
+                        <h4 class="mb-0">Sanduíches</h4>
+                        <span class="gh-badge">Principal</span>
+                    </div>
+
+                    @if (!menu.Sandwiches.Any())
+                    {
+                        <p class="gh-empty mb-0">Nenhum sanduíche disponível.</p>
+                    }
+                    else
+                    {
+                        <div class="d-grid gap-2">
+                            @foreach (var item in menu.Sandwiches)
+                            {
+                                <div class="gh-menu-item">
+                                    <strong>@item.Name</strong>
+                                    <span class="gh-price">@item.Price.ToString("C")</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="gh-card">
+                <div class="gh-card-body">
+                    <div class="gh-section-title">
+                        <h4 class="mb-0">Acompanhamentos e Bebidas</h4>
+                        <span class="gh-badge">Extras</span>
+                    </div>
+
+                    @if (!menu.SideDish.Any())
+                    {
+                        <p class="gh-empty mb-0">Nenhum acompanhamento ou bebida disponível.</p>
+                    }
+                    else
+                    {
+                        <div class="d-grid gap-2">
+                            @foreach (var item in menu.SideDish)
+                            {
+                                <div class="gh-menu-item">
+                                    <strong>@item.Name</strong>
+                                    <span class="gh-price">@item.Price.ToString("C")</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private MenuModel? menu;
+
+    protected override async Task OnInitializedAsync()
+    {
+        menu = await MenuService.GetMenuAsync();
+    }
+}

@@ -2,6 +2,5 @@
 
 public class CreateOrderModel
 {
-    public Guid Id { get; set; }
-    public List<OrderItemModel> Items { get; set; } = [];
+    public List<CreateOrderItemModel> Items { get; set; } = [];
 }

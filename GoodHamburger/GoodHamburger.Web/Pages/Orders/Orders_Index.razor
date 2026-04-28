@@ -1,0 +1,88 @@
+﻿@page "/orders"
+@using GoodHamburger.Web.Models
+@using GoodHamburger.Web.Services
+@inject OrderService OrderService
+@inject NavigationManager Navigation
+
+<div class="gh-page">
+    <section class="gh-hero mb-4">
+        <span class="gh-eyebrow">Pedidos</span>
+        <h3 class="display-6 mt-3 mb-2">Pedidos</h3>
+        <p class="mb-4">Acompanhe os pedidos criados e consulte os detalhes.</p>
+        <button class="btn btn-success" @onclick="CreateOrder">
+            Novo Pedido
+        </button>
+    </section>
+
+    @if (orders is null)
+    {
+        <div class="gh-empty">Carregando pedidos...</div>
+    }
+    else if (!orders.Any())
+    {
+        <div class="gh-empty">Nenhum pedido encontrado.</div>
+    }
+    else
+    {
+        <div class="gh-card">
+            <div class="table-responsive">
+                <table class="table table-hover gh-table">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Total</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    @foreach (var order in orders)
+                    {
+                        <tr>
+                            <td class="text-break">@order.Id</td>
+                            <td><span class="gh-price">@order.Total.ToString("C")</span></td>
+                            <td>
+                                <div class="gh-actions">
+                                    <button class="btn btn-sm btn-info" @onclick="() => Details(order.Id)">
+                                        Detalhes
+                                    </button>
+
+                                    <button class="btn btn-sm btn-danger" @onclick="() => DeleteOrder(order.Id)">
+                                        Excluir
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<OrderModel>? orders;
+
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await OrderService.GetAllAsync();
+    }
+
+    private void CreateOrder()
+    {
+        Navigation.NavigateTo("/orders/create");
+    }
+
+    private void Details(Guid id)
+    {
+        Navigation.NavigateTo($"/orders/details/{id}");
+    }
+
+    private async Task DeleteOrder(Guid id)
+    {
+        var success = await OrderService.DeleteAsync(id);
+
+        if (success)
+            orders = await OrderService.GetAllAsync();
+    }
+}

@@ -8,10 +8,10 @@ namespace GoodHamburger.Domain.Entities;
 public class Order
 {
     private readonly List<OrderItem> _items = new();
-    
-    public Guid Id { get; private set; }
 
     public IReadOnlyCollection<OrderItem> Items => _items;
+    
+    public Guid Id { get; private set; }
     
     [NotMapped]
     public decimal SubTotal => _items.Sum(x => x.Total);

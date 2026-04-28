@@ -1,0 +1,80 @@
+﻿@page "/Edit"
+<h3>Edit</h3>
+
+@page "/products/edit/{Id:guid}"
+@using GoodHamburger.Web.Models
+@using GoodHamburger.Web.Services
+@inject ProductService ProductService
+@inject NavigationManager Navigation
+
+<div class="gh-page">
+    <section class="gh-hero mb-4">
+        <span class="gh-eyebrow">Produtos</span>
+        <h3 class="display-6 mt-3 mb-2">Editar Produto</h3>
+        <p class="mb-0">Atualize os dados do item selecionado.</p>
+    </section>
+
+    @if (product is null)
+    {
+        <div class="gh-empty">Carregando produto...</div>
+    }
+    else
+    {
+        <div class="gh-card gh-form">
+            <div class="gh-card-body">
+                <EditForm Model="product" OnValidSubmit="SaveProduct">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="mb-3">
+                        <label class="form-label">Nome</label>
+                        <InputText class="form-control" @bind-Value="product.Name" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Valor</label>
+                        <InputNumber class="form-control" @bind-Value="product.Price" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipo</label>
+                        <InputNumber class="form-control" @bind-Value="product.Type" />
+                    </div>
+
+                    <div class="gh-actions">
+                        <button class="btn btn-success" type="submit">Salvar</button>
+                        <button class="btn btn-secondary" type="button" @onclick="Back">Voltar</button>
+                    </div>
+                </EditForm>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public Guid Id { get; set; }
+
+    private ProductModel? product;
+
+    protected override async Task OnInitializedAsync()
+    {
+        product = await ProductService.GetByIdAsync(Id);
+    }
+
+    private async Task SaveProduct()
+    {
+        if (product is null)
+            return;
+
+        var success = await ProductService.UpdateAsync(Id, product);
+
+        if (success)
+            Navigation.NavigateTo("/products");
+    }
+
+    private void Back()
+    {
+        Navigation.NavigateTo("/products");
+    }
+}

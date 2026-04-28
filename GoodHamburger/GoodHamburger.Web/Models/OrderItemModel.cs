@@ -2,6 +2,7 @@
 
 public class OrderItemModel
 {
-    public Guid ProductId { get; set; }
+    public ProductModel Product { get; set; } = new();
     public int Quantity { get; set; }
+    public decimal Total { get; set; }
 }

@@ -1,0 +1,68 @@
+﻿@page "/products/create"
+
+@using GoodHamburger.Web.Models
+@using GoodHamburger.Web.Services
+@inject ProductService ProductService
+@inject NavigationManager NavigationManager
+
+<div class="gh-page">
+    <section class="gh-hero mb-4">
+        <span class="gh-eyebrow">Produtos</span>
+        <h3 class="display-6 mt-3 mb-2">Novo Produto</h3>
+        <p class="mb-0">Cadastre um item para o cardápio.</p>
+    </section>
+
+    <div class="gh-card gh-form">
+        <div class="gh-card-body">
+            <EditForm Model= "product" OnValidSubmit="SaveProduct">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="mb-3">
+                    <label class="form-label">Nome</label>
+                    <InputText class="form-control" @bind-Value="product.Name" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Valor</label>
+                    <InputNumber class="form-control" @bind-Value="product.Price" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Tipo</label>
+                    <InputSelect class="form-select" @bind-Value="product.Type">
+                        <option value="1">Sanduíche</option>
+                        <option value="2">Batata</option>
+                        <option value="3">Bebida</option>
+                    </InputSelect>
+                </div>
+                <div class="gh-actions">
+                    <button class="btn btn-success" type="submit">Salvar</button>
+                    <button class="btn btn-secondary" type= "button" @onclick="Back">Voltar</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+    private CreateProductModel product = new();
+
+    private async Task SaveProduct()
+    {
+        var response = await ProductService.CreateAsync(product);
+
+        if (response is not null && response.IsSucess)
+            NavigationManager.NavigateTo("/products");
+
+        else
+        {
+            response.Message = "Erro ao criar produto.";
+        }
+    }
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("/products");
+    }
+}
